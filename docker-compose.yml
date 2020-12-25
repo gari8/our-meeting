@@ -1,5 +1,16 @@
 version: "3.5"
 services:
+  omclient:
+      container_name: omclient
+      build: ./omclient
+      tty: true
+      restart: always
+      volumes:
+        - ./omclient/:/app
+      depends_on:
+        - omserver
+      ports:
+        - 3000:3000
   omserver:
       container_name: omserver
       build: ./omserver
@@ -13,14 +24,11 @@ services:
         - 8080:8080
       environment:
         HOSTNAME: "omserverdb"
-        
         DRIVER: "postgres"
         USER: "postgres"
         DBNAME: "postgres"
         PASSWORD: "postgres"
-        
       command: sh ./build.sh
-  
   omserverdb:
       image: postgres:10-alpine
       container_name: omserverdb
