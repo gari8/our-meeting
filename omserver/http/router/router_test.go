@@ -3,7 +3,7 @@ package router_test
 import (
 	"github.com/go-chi/chi"
 	"github.com/stretchr/testify/assert"
-	"omserver/router"
+	"omserver/http/router"
 	"reflect"
 	"testing"
 )

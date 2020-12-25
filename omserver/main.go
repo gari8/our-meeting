@@ -8,7 +8,7 @@ import (
 
 	"omserver/database/postgres/conf"
 
-	"omserver/router"
+	"omserver/http/router"
 )
 
 func main() {
