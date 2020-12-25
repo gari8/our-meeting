@@ -1,0 +1,44 @@
+version: "3.5"
+services:
+  omserver:
+      container_name: omserver
+      build: ./omserver
+      tty: true
+      restart: always
+      volumes:
+        - ./omserver/:/app
+      depends_on:
+        - omserverdb
+      ports:
+        - 8080:8080
+      environment:
+        HOSTNAME: "omserverdb"
+        
+        DRIVER: "postgres"
+        USER: "postgres"
+        DBNAME: "postgres"
+        PASSWORD: "postgres"
+        
+      command: sh ./build.sh
+  
+  omserverdb:
+      image: postgres:10-alpine
+      container_name: omserverdb
+      ports:
+        - "3632:5432"
+      environment:
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "postgres"
+        PGPASSWORD: "postgres"
+        POSTGRES_DB: "postgres"
+        DATABASE_HOST: "localhost"
+      command: postgres -c log_destination=stderr -c log_statement=all -c log_connections=on -c log_disconnections=on
+      logging:
+        options:
+          max-size: "10k"
+          max-file: "5"
+      volumes:
+        - ./omserver/database/postgres/init:/docker-entrypoint-initdb.d
+        #      this volume allows for data persistence; if you make data persistent, make /infrastructure/postgres/data as empty directory and you remove comment out from this volume.
+        #      - ./omserver/database/postgres/data:/var/lib/postgres/data
+  
