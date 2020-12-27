@@ -13,6 +13,7 @@ import (
 )
 
 func main() {
+	println(os.Getenv("DATABASE_URL"))
 	conn, err := conf.NewDatabaseConnection()
 	if err != nil {
 		panic(err)
