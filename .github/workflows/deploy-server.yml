@@ -3,15 +3,14 @@ on:
   push:
     branches:
       - main
+    workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy to Heroku
-        env:
-          HEROKU_API_TOKEN: ${{ secrets.HEROKU_API_TOKEN }}
-          HEROKU_APP_NAME: "our-meeting"
-        if: github.ref == 'refs/heads/main' && job.status == 'success'
-        run: |
-          git push heroku `git subtree split --prefix omserver main`:main --force
+      - uses: akhileshns/heroku-deploy@v3.8.8
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "our-meeting"
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
