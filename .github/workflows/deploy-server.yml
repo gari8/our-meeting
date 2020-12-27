@@ -14,4 +14,4 @@ jobs:
           HEROKU_APP_NAME: "our-meeting"
         if: github.ref == 'refs/heads/main' && job.status == 'success'
         run: |
-          git subtree push -f --prefix omserver/ heroku main
+          git subtree push --prefix omserver/ heroku main
