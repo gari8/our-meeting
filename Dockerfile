@@ -5,10 +5,12 @@ ENV GOOS=linux
 ENV GOARCH=amd64
 WORKDIR /app
 COPY ./omserver/ .
-RUN go build main.go
+RUN go build -o /app/main
 
 # 作ったGoのバイナリを実行する
 FROM alpine:latest
-COPY --from=builder /app /app
+COPY --from=builder /app/main .
+
+ENV PORT=${PORT}
 
 CMD /app/main $PORT
