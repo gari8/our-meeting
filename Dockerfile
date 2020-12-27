@@ -5,7 +5,7 @@ ENV GOOS=linux
 ENV GOARCH=amd64
 WORKDIR /app
 COPY ./omserver/ .
-RUN go build -o main
+RUN go build main.go
 
 # 作ったGoのバイナリを実行する
 FROM alpine:latest
