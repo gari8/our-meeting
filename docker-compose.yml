@@ -23,6 +23,7 @@ services:
       ports:
         - 8080:8080
       environment:
+        PORT: "8080"
         HOSTNAME: "omserverdb"
         DRIVER: "postgres"
         USER: "postgres"
@@ -33,7 +34,7 @@ services:
       image: postgres:10-alpine
       container_name: omserverdb
       ports:
-        - "3632:5432"
+        - 3632:5432
       environment:
         POSTGRES_USER: "postgres"
         POSTGRES_PASSWORD: "postgres"

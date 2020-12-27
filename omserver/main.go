@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"omserver/controllers"
 	"omserver/models"
+	"os"
 
 	"omserver/database/postgres/conf"
 
@@ -37,5 +38,7 @@ func main() {
 	s := router.NewRouter()
 	s.Router(c)
 
-	_ = http.ListenAndServe(":8080", s.Route)
+	port := os.Getenv("PORT")
+
+	_ = http.ListenAndServe(":"+ port, s.Route)
 }

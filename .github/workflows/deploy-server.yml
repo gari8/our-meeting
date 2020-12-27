@@ -14,4 +14,3 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "our-meeting-stg"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
-          working-directory: ./omserver
