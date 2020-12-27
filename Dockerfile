@@ -13,7 +13,7 @@ COPY ./omserver/ .
 
 RUN GOOS=linux GOARCH=amd64 go build -o /main
 
-FROM alpine:3.9
+FROM alpine:latest
 
 COPY --from=builder /main .
 
