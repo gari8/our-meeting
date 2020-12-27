@@ -7,7 +7,6 @@ ENV GOARCH=amd64
 WORKDIR /app
 COPY ./omserver/go.mod .
 COPY ./omserver/go.sum .
-
 RUN go mod download
 COPY ./omserver/ .
 
