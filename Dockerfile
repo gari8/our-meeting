@@ -1,8 +1,7 @@
 FROM golang:latest as builder
 
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
+RUN apk update \
+  && apk add --no-cache git curl make gcc g++
 
 WORKDIR /app
 COPY ./omserver/go.mod .
