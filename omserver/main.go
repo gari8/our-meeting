@@ -38,6 +38,13 @@ func main() {
 	s := router.NewRouter()
 	s.Router(c)
 
+	//h := handler.New(&handler.Config{
+	//	Schema: &schema,
+	//	Pretty: true,
+	//	GraphiQL: false,
+	//	Playground: true,
+	//})
+
 	port := os.Getenv("PORT")
 
 	_ = http.ListenAndServe(":"+ port, s.Route)

@@ -2,12 +2,15 @@ import Header from "../organisms/Header";
 import Footer from "../organisms/Footer";
 import SideBar from "../organisms/SideBar";
 import {ColorMap} from "../../models/resource";
+import {FC} from "react";
+
 
 interface Props {
-
+    children?: any
+    withoutSideBar?: boolean
 }
 
-const Layout = ({ children }) => {
+const Layout: FC<Props> = ({ children, withoutSideBar= false }) => {
     return (
         <>
             <div className="relative w-full min-h-screen pb-40 pt-10">
@@ -16,7 +19,7 @@ const Layout = ({ children }) => {
                     <div className="w-3/4">
                         {children}
                     </div>
-                    <SideBar />
+                    {withoutSideBar ? <></> : <SideBar />}
                 </div>
                 <Footer />
             </div>

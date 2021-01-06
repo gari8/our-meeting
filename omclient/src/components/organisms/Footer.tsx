@@ -1,3 +1,5 @@
+import {ColorMap} from "../../models/resource";
+
 const Footer = ({}) => {
     return (
         <>
@@ -7,6 +9,7 @@ const Footer = ({}) => {
                     position: absolute;
                     bottom: 0;
                     left: 0;
+                    background-color: ${ColorMap.bgSub};
                 }
             `}</style>
         </>

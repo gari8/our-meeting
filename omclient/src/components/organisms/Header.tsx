@@ -10,7 +10,7 @@ const Header = () => {
         <div className="flex mx-10 justify-between">
             <LinkImage
                 url="/static/logo.jpg"
-                linkUrl=""
+                linkUrl="/"
                 width={60}
                 height={60}
                 isRounded={true}
