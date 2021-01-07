@@ -1,0 +1,22 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Room {
+  ulid: ID!
+  room_name: String!
+  description: String
+  disabled: Boolean!
+  own_messages: [Message!]!
+}
+
+type Message {
+  id: Int!
+  room_id: String!
+  text: String!
+}
+
+type Query {
+  rooms: [Room!]!
+  messages(room_id: String!): [Message!]!
+}

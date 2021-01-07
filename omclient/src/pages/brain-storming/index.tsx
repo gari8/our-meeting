@@ -15,7 +15,7 @@ const BrainStorming = ({}) => {
                 url={"/"}
             />
             <Layout withoutSideBar={true}>
-                brain-storming
+                <p className="text-white">brainstorming</p>
             </Layout>
         </>
     )

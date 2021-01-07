@@ -1,51 +1,48 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
-	"omserver/controllers"
-	"omserver/models"
+	"omserver/database/postgres/conf"
+	"omserver/graph"
+	"omserver/graph/generated"
+	"omserver/repository"
 	"os"
 
-	"omserver/database/postgres/conf"
-
-	"omserver/http/router"
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
 )
 
+const defaultPort = "8080"
+
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
+	}
+
 	conn, err := conf.NewDatabaseConnection()
 	if err != nil {
 		panic(err)
 	}
-	defer conn.Close()
-	fmt.Println(`
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
-  *        ####    #####    #####     ####    ##  ##   ######   ######   #####  *
-  *      ##  ##   ##  ##   ##  ##     ##     ### ##     ##     ##       ##  ##  *
-  *     ##       ##  ##   ##  ##     ##     ######     ##     ##       ##  ##   *
-  *     ####    #####    #####      ##     ######     ##     ####     #####     *
-  *       ##   ##       ####       ##     ## ###     ##     ##       ####       *
-  *  ##  ##   ##       ## ##      ##     ##  ##     ##     ##       ## ##       *
-  *  ####    ##       ##  ##    ####    ##  ##     ##     ######   ##  ##       *
-    * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-    `)
+	if conn == nil {
+		panic(err)
+	}
+	defer func() {
+		if conn != nil {
+			if err := conn.Close(); err != nil {
+				panic(err)
+			}
+		}
+	}()
 
-	fmt.Println(`HTML:	GET http://localhost:8080`)
-	fmt.Println(`API:	GET http://localhost:8080/api/v1`)
+	repository := repository.NewRepository(conn)
 
-	m := models.NewModel(conn)
-	c := controllers.NewController(m)
-	s := router.NewRouter()
-	s.Router(c)
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{Repository: repository}}))
 
-	//h := handler.New(&handler.Config{
-	//	Schema: &schema,
-	//	Pretty: true,
-	//	GraphiQL: false,
-	//	Playground: true,
-	//})
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
 
-	port := os.Getenv("PORT")
-
-	_ = http.ListenAndServe(":"+ port, s.Route)
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
