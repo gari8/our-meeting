@@ -3,6 +3,7 @@ import HeadInfo from "../components/atoms/HeadInfo";
 import Layout from "../components/templates/Layout";
 import Link from "next/link";
 import {ColorMap} from "../models/resource";
+import {addApolloState, initializeApollo} from "../lib/applicationClient";
 
 const Home: FC = () =>  {
     return (
@@ -45,6 +46,20 @@ const Home: FC = () =>  {
             `}</style>
         </>
     )
+}
+
+export async function getStaticProps() {
+    const apolloClient = initializeApollo()
+
+    // await apolloClient.query({
+    //     query: ALL_POSTS_QUERY,
+    //     variables: allPostsQueryVars,
+    // })
+
+    return addApolloState(apolloClient, {
+        props: {},
+        revalidate: 1,
+    })
 }
 
 export default Home
