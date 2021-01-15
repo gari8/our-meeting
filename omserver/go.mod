@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.13.0
 	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/gomodule/redigo v1.8.3
 	github.com/gorilla/websocket v1.4.2
 	github.com/lib/pq v1.9.0
 	github.com/oklog/ulid v1.3.1

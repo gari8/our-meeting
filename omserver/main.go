@@ -5,6 +5,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi"
+	"github.com/go-redis/redis"
 	"github.com/gorilla/websocket"
 	"github.com/rs/cors"
 	"log"
@@ -30,8 +31,6 @@ func main() {
 		Debug:            true,
 	}).Handler)
 
-	redisUrl := os.Getenv("REDIS_URL")
-
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
@@ -54,7 +53,14 @@ func main() {
 
 	newRepository := repository.NewRepository(conn)
 
-	redisClient, err := worker.NewRedisClient(redisUrl)
+	redisUrl := os.Getenv("REDIS_URL")
+
+	opt, err := redis.ParseURL(redisUrl)
+	if err != nil {
+		panic(err)
+	}
+
+	redisClient, err := worker.NewRedisClient(opt)
 
 	if err != nil {
 		panic(err)

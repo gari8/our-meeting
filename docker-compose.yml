@@ -29,7 +29,7 @@ services:
         PORT: "8080"
         DRIVER: "postgres"
         DATABASE_URL: "host=omserverdb user=postgres dbname=postgres password=postgres sslmode=disable"
-        REDIS_URL: "worker:6379"
+        REDIS_URL: "redis://worker:6379"
       command: sh ./build.sh
   omserverdb:
       image: postgres:10-alpine
