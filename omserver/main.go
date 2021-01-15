@@ -1,20 +1,20 @@
 package main
 
 import (
+	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi"
 	"github.com/gorilla/websocket"
 	"github.com/rs/cors"
 	"log"
 	"net/http"
 	"omserver/database/postgres/conf"
+	"omserver/database/redis/worker"
 	"omserver/graph"
 	"omserver/graph/generated"
 	"omserver/repository"
 	"os"
-
-	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/99designs/gqlgen/graphql/playground"
 )
 
 const defaultPort = "8080"
@@ -29,6 +29,8 @@ func main() {
 		AllowedHeaders:   []string{"*"},
 		Debug:            true,
 	}).Handler)
+
+	redisUrl := os.Getenv("REDIS_URL")
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -50,9 +52,17 @@ func main() {
 		}
 	}()
 
-	repository := repository.NewRepository(conn)
+	newRepository := repository.NewRepository(conn)
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{Repository: repository}}))
+	redisClient, err := worker.NewRedisClient(redisUrl)
+
+	if err != nil {
+		panic(err)
+	}
+
+	resolvers := graph.NewGraphQLConfig(redisClient, newRepository)
+
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: resolvers}))
 
 	srv.AddTransport(&transport.Websocket{
 		Upgrader: websocket.Upgrader{

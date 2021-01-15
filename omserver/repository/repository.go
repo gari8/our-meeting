@@ -12,6 +12,7 @@ func NewRepository(conn *sql.DB) Repository {
 type Repository interface {
 	FetchRooms() ([]*model.Room, error)
 	FetchMessagesByRoomID(roomId string) ([]*model.Message, error)
+	InsertMessage(roomId string, text string) (int, error)
 }
 
 type repository struct {

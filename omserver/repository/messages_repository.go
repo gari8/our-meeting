@@ -1,6 +1,8 @@
 package repository
 
-import "omserver/graph/model"
+import (
+	"omserver/graph/model"
+)
 
 func (r *repository)FetchMessagesByRoomID(roomId string) ([]*model.Message, error) {
 	var messages []*model.Message
@@ -16,4 +18,14 @@ func (r *repository)FetchMessagesByRoomID(roomId string) ([]*model.Message, erro
 		}
 	}
 	return messages, nil
+}
+
+func (r *repository)InsertMessage(roomId string, text string) (int, error) {
+	stmt := `INSERT INTO messages(room_id, text) VALUES($1, $2) RETURNING id`
+	id := 0
+	err := r.DB.QueryRow(stmt, roomId, text).Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+	return id, err
 }

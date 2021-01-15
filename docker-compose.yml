@@ -7,8 +7,9 @@ services:
       restart: always
       volumes:
         - ./omclient/:/app
-      depends_on:
+      links:
         - omserver
+        - worker
       environment:
         NEXT_PUBLIC_API_URL: "http://localhost:8080"
       ports:
@@ -28,6 +29,7 @@ services:
         PORT: "8080"
         DRIVER: "postgres"
         DATABASE_URL: "host=omserverdb user=postgres dbname=postgres password=postgres sslmode=disable"
+        REDIS_URL: "worker:6379"
       command: sh ./build.sh
   omserverdb:
       image: postgres:10-alpine
@@ -49,4 +51,9 @@ services:
         - ./omserver/database/postgres/init:/docker-entrypoint-initdb.d
         #      this volume allows for data persistence; if you make data persistent, make /infrastructure/postgres/data as empty directory and you remove comment out from this volume.
         #      - ./omserver/database/postgres/data:/var/lib/postgres/data
+  worker:
+      image: redis:latest
+      container_name: worker
+      ports:
+        - 6379:6379
   
