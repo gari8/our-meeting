@@ -15,8 +15,9 @@ const Layout: FC<Props> = ({ children, withoutSideBar= false }) => {
         <>
             <div className="relative w-full min-h-screen pb-40 pt-10">
                 <Header />
-                <div className="flex justify-between my-20 mx-10">
-                    <div className="w-3/4">
+                <div className="flex justify-between">
+                    {withoutSideBar ? <></> : <SideBar />}
+                    <div className="w-3/4 my-10">
                         {children}
                     </div>
                     {withoutSideBar ? <></> : <SideBar />}

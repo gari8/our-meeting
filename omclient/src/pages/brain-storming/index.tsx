@@ -2,28 +2,24 @@ import {FC} from 'react'
 import HeadInfo from "../../components/atoms/HeadInfo";
 import Layout from "../../components/templates/Layout";
 import Link from "next/link";
-import {ColorMap} from "../../models/resource";
-import {addApolloState, initializeApollo} from "../../lib/applicationClient";
-import gql from "graphql-tag";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/client";
 import {Room} from "../../generated/graphql";
+import CreateRoom from "../../components/templates/CreateRoom";
+import {GET_ROOMS} from "../../models/gqls";
+import RoomList from "../../components/templates/RoomList";
 
-export const GET_ROOMS = gql`
-    query {
-        rooms {
-            room_name
-            disabled
-            ulid
-            own_messages {
-                __typename
-            }
-        }
-    }
-`
 
 const BrainStorming: FC = () => {
     const { loading, error, data } = useQuery(GET_ROOMS);
-    console.log(loading, data, error)
+
+    if (loading) {
+        return <p> Loading... </p>
+    }
+
+    if (error) {
+        return <p> Error... </p>
+    }
+
     return (
         <>
             <HeadInfo
@@ -33,34 +29,16 @@ const BrainStorming: FC = () => {
                 image={"/static/brst.svg"}
                 url={"/"}
             />
-            <Layout withoutSideBar={true}>
-                <p className="text-white">brainstorming</p>
+            <Layout>
+                <CreateRoom />
                 {
                     !loading && (
-                        <ul>
-                            {data.rooms.map((r: Room) => {
-                                return <li key={r.ulid} className="text-white">{r.room_name} : {r.disabled? "x" : "o"} : {r.own_messages.length}</li>
-                            })}
-                        </ul>
+                        data ? <RoomList rooms={data.rooms} /> : <></>
                     )
                 }
             </Layout>
         </>
     )
 }
-
-// export async function getStaticProps() {
-//     const apolloClient = initializeApollo()
-//
-//     await apolloClient.query({
-//         query: GET_ROOMS,
-//     })
-//
-//     return addApolloState(apolloClient, {
-//         props: {
-//             initialApolloState: apolloClient.cache.extract(),
-//         },
-//     })
-// }
 
 export default BrainStorming
