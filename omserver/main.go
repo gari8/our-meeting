@@ -45,13 +45,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	defer func() {
-		if redisClient != nil {
-			if err := redisClient.Close(); err != nil {
-				panic(err)
-			}
-		}
-	}()
+	//defer func() {
+	//	if redisClient != nil {
+	//		if err := redisClient.Close(); err != nil {
+	//			panic(err)
+	//		}
+	//	}
+	//}()
 
 	resolvers := graph.NewGraphQLConfig(redisClient, newRepository)
 
