@@ -1,11 +1,17 @@
 import Nav from "../atoms/Nav";
 import {ColorMap} from "../../models/resource";
+import router from "next/router";
+import {useContext} from "react";
+import {AuthContext} from "../../lib/auth";
 
 interface Props {
-
+    signOut: () => void
+    logIn: () => void
 }
 
-const NavBar = ({}: Props) => {
+const NavBar = ({ signOut, logIn }: Props) => {
+    const { currentUser } = useContext(AuthContext);
+
     return (
         <>
             <div className="navbar flex mx-auto px-10 rounded-full w-10/12 h-16 justify-between">
@@ -25,6 +31,7 @@ const NavBar = ({}: Props) => {
                     width={60}
                     height={60}
                 />
+                {currentUser ? <p onClick={() => signOut()}>signOut</p> : <p onClick={() => logIn()}>login</p>}
             </div>
             <style jsx>{`
                 .navbar {
@@ -35,4 +42,4 @@ const NavBar = ({}: Props) => {
     )
 }
 
-export default NavBar
+export default NavBar;

@@ -1,10 +1,18 @@
-import {FC} from 'react'
+import {FC, useContext} from 'react'
 import HeadInfo from "../components/atoms/HeadInfo";
 import Layout from "../components/templates/Layout";
 import Link from "next/link";
 import {ColorMap} from "../models/resource";
+import router from "next/router";
+import {AuthContext} from "../lib/auth";
+import {firebase} from "../lib/firebase";
 
 const Home: FC = () =>  {
+    const { currentUser } = useContext(AuthContext);
+    const handleSignIn = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider).then(r => console.log(r));
+    }
     return (
         <>
             <HeadInfo
@@ -27,7 +35,12 @@ const Home: FC = () =>  {
                         <br/>そのため、テキストベースでリアルタイムに話し合いができるツールとしてこのサービスを立ち上げてみた。
                     </p>
                 </div>
-                <h2 className="navigator text-center text-2xl"><Link href="/brain-storming">＞早速使ってみる</Link></h2>
+                <h2
+                    className="navigator text-center text-2xl"
+                    onClick={() => {
+                        currentUser ? router.push("/brain-storming") : handleSignIn()
+                    }}
+                >＞早速使ってみる</h2>
             </Layout>
             <style jsx>{`
                 .description {

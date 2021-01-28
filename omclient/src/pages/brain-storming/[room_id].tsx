@@ -5,6 +5,7 @@ import {useMutation, useQuery} from "@apollo/client";
 import {useRouter} from "next/router";
 import {ACCEPT_MESSAGES, GET_MESSAGES, POST_MESSAGE} from "../../models/gqls";
 import MessageLine from "../../components/organisms/MessageLine";
+import withAuth from "../../lib/withAuth.";
 
 
 const BrainStormingRoomID: FC = () => {
@@ -76,4 +77,4 @@ const BrainStormingRoomID: FC = () => {
     )
 }
 
-export default BrainStormingRoomID;
+export default withAuth(BrainStormingRoomID);
