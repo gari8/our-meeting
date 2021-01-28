@@ -7,7 +7,7 @@ import {Room} from "../../generated/graphql";
 import CreateRoom from "../../components/templates/CreateRoom";
 import {GET_ROOMS} from "../../models/gqls";
 import RoomList from "../../components/templates/RoomList";
-import withAuth from "../../lib/withAuth.";
+import withAuth from "../../lib/withAuth";
 
 
 const BrainStorming: FC = () => {
