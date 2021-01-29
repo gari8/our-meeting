@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import {ACCEPT_MESSAGES, GET_MESSAGES, POST_MESSAGE} from "../../models/gqls";
 import MessageLine from "../../components/organisms/MessageLine";
 import withAuth from "../../lib/withAuth";
+import Loading from "../../components/templates/Loading";
 
 
 const BrainStormingRoomID: FC = () => {
@@ -21,7 +22,7 @@ const BrainStormingRoomID: FC = () => {
     );
 
     if (loading) {
-        return <p> Loading... </p>
+        return <Loading />
     }
 
     if (error) {

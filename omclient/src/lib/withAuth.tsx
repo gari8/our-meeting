@@ -1,6 +1,7 @@
 import React from "react";
 import router from "next/router";
 import { auth } from "./firebase";
+import Loading from "../components/templates/Loading";
 
 
 const withAuth = Component => {
@@ -26,7 +27,7 @@ const withAuth = Component => {
             // @ts-ignore
             const { status } = this.state;
             if (status == "LOADING") {
-                return <h1>Loading ......</h1>;
+                return <Loading />
             } else if (status == "SIGNED_IN") {
                 return <Component {...this.props} />;
             }

@@ -8,13 +8,14 @@ import CreateRoom from "../../components/templates/CreateRoom";
 import {GET_ROOMS} from "../../models/gqls";
 import RoomList from "../../components/templates/RoomList";
 import withAuth from "../../lib/withAuth";
+import Loading from "../../components/templates/Loading";
 
 
 const BrainStorming: FC = () => {
     const { loading, error, data } = useQuery(GET_ROOMS);
 
     if (loading) {
-        return <p> Loading... </p>
+        return <Loading />
     }
 
     if (error) {
