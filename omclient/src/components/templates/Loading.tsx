@@ -1,4 +1,4 @@
-import {ColorMap, ColorMapNightly} from "../../models/resource";
+import {ColorMap} from "../../models/resource";
 import {FC} from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
