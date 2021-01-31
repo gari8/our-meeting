@@ -3,10 +3,13 @@ import {ColorMap} from "../../models/resource";
 const SideBar = () => {
     return (
         <>
-            <div className="w-1/5 h-full">
-
+            <div className="side-bar w-1/5 h-full">
             </div>
-            <style jsx>{``}</style>
+            <style jsx>{`
+                .side-bar {
+                    background-color: ${ColorMap.bgSub};
+                }
+            `}</style>
         </>
     )
 }

@@ -1,4 +1,4 @@
-import {FC, useContext} from 'react'
+import {FC, useContext, useEffect} from 'react'
 import HeadInfo from "../components/atoms/HeadInfo";
 import Layout from "../components/templates/Layout";
 import Link from "next/link";
@@ -6,13 +6,21 @@ import {ColorMap} from "../models/resource";
 import router from "next/router";
 import {AuthContext} from "../lib/auth";
 import {firebase} from "../lib/firebase";
+import HomeWithoutLogin from "../components/templates/HomeWithoutLogin";
 
 const Home: FC = () =>  {
     const { currentUser } = useContext(AuthContext);
     const handleSignIn = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider).then(r => console.log(r));
+        firebase.auth().signInWithRedirect(provider)
+            .then(() => router.push("/dashboard"))
+            .catch(err => console.error(err));
     }
+
+    useEffect(() => {
+        currentUser ? router.push("/dashboard") : ""
+    }, [])
+
     return (
         <>
             <HeadInfo
@@ -22,42 +30,11 @@ const Home: FC = () =>  {
                 image={"/static/brst.svg"}
                 url={"/"}
             />
-            <Layout>
-                <h1 className="title text-center text-5xl my-5">ブレストってなに？</h1>
-                <div className="flex justify-center my-20">
-                    <div className="w-1/3 m-10">
-                        <img src="/static/brst.svg" />
-                    </div>
-                    <p className="description break-words text-white text-center text-md m-10 w-1/3 leading-relaxed">
-                        brain storming とは何か<br/>　ブレインストーミングという言葉を周りで聞いたことはあるだろうか？
-                        会議などで用いられる、相手の意見を尊重しながらどんどん意見を出し合う手法である。
-                        しかし、この有効な手法もコロナ禍におけるビデオ会議で行ってしまうと意見が入り乱れて場が収まらなくなってしまう。
-                        <br/>そこで、テキストベースでリアルタイムに話し合いができるツールとしてこのサービスを立ち上げてみた。
-                    </p>
-                </div>
-                <h2
-                    className="navigator text-center text-2xl"
-                    onClick={() => {
-                        currentUser ? router.push("/brain-storming") : handleSignIn()
-                    }}
-                >＞早速使ってみる</h2>
+            <Layout withoutSideBar={true} >
+                <HomeWithoutLogin handleSignIn={handleSignIn} />
             </Layout>
-            <style jsx>{`
-                .description {
-                    color: ${ColorMap.myWhite};
-                }
-                .navigator {
-                    color: ${ColorMap.textMain};
-                }
-                .navigator:hover {
-                    text-decoration-line: underline;
-                }
-                .title {
-                    color: ${ColorMap.textSub};
-                }
-            `}</style>
         </>
     )
 }
 
-export default Home
+export default Home;

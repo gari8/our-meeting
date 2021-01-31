@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react'
+import {FC, useContext, useEffect, useState} from 'react'
 import HeadInfo from "../../components/atoms/HeadInfo";
 import Layout from "../../components/templates/Layout";
 import {useMutation, useQuery} from "@apollo/client";
@@ -7,9 +7,11 @@ import {ACCEPT_MESSAGES, GET_MESSAGES, POST_MESSAGE} from "../../models/gqls";
 import MessageLine from "../../components/organisms/MessageLine";
 import withAuth from "../../lib/withAuth";
 import Loading from "../../components/templates/Loading";
+import {AuthContext} from "../../lib/auth";
 
 
 const BrainStormingRoomID: FC = () => {
+    const { currentUser } = useContext(AuthContext)
     const { room_id } = useRouter().query;
     const [text, inputText] = useState("");
     const [validate, checkValidate] = useState(true);
@@ -38,7 +40,7 @@ const BrainStormingRoomID: FC = () => {
                 image={"/static/brst.svg"}
                 url={"/"}
             />
-            <Layout>
+            <Layout currentUser={currentUser}>
                 <p className="text-white">{room_id}</p>
                 <MessageLine messageList={data.messages} subscribeMessage={() => {
                     subscribeToMore({

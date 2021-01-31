@@ -1,12 +1,14 @@
 import LinkImage from "../atoms/LinkImage";
 import NavBar from "../molecules/NavBar";
 import {auth, firebase} from "../../lib/firebase";
+import {FC} from "react";
 
 interface Props {
-
+    currentUser?: firebase.User
+    headerHeight: string
 }
 
-const Header = () => {
+const Header: FC<Props> = ({ currentUser, headerHeight }) => {
     const handleSignOut = () => {
         auth
             .signOut()
@@ -20,15 +22,8 @@ const Header = () => {
         auth.signInWithRedirect(provider).then(r => console.log(r));
     }
     return (
-        <div className="flex mx-10 justify-between">
-            <LinkImage
-                url="/static/logo.jpg"
-                linkUrl="/"
-                width={60}
-                height={60}
-                isRounded={true}
-            />
-            <NavBar signOut={handleSignOut} logIn={handleSignIn}/>
+        <div className="flex justify-between">
+            <NavBar currentUser={currentUser} signOut={handleSignOut} logIn={handleSignIn} height={headerHeight} />
         </div>
     )
 }

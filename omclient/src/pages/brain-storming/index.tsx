@@ -1,4 +1,4 @@
-import {FC} from 'react'
+import {FC, useContext} from 'react'
 import HeadInfo from "../../components/atoms/HeadInfo";
 import Layout from "../../components/templates/Layout";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import {GET_ROOMS} from "../../models/gqls";
 import RoomList from "../../components/templates/RoomList";
 import withAuth from "../../lib/withAuth";
 import Loading from "../../components/templates/Loading";
+import {AuthContext} from "../../lib/auth";
 
 
 const BrainStorming: FC = () => {
@@ -22,6 +23,8 @@ const BrainStorming: FC = () => {
         return <p> Error... </p>
     }
 
+    const { currentUser } = useContext(AuthContext);
+
     return (
         <>
             <HeadInfo
@@ -31,7 +34,7 @@ const BrainStorming: FC = () => {
                 image={"/static/brst.svg"}
                 url={"/"}
             />
-            <Layout>
+            <Layout currentUser={currentUser}>
                 <CreateRoom />
                 {
                     !loading && (

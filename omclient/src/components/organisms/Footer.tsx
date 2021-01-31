@@ -1,15 +1,20 @@
 import {ColorMap} from "../../models/resource";
 
-const Footer = ({}) => {
+interface Props {
+    footerHeight: string;
+}
+
+const Footer = ({ footerHeight }: Props) => {
     return (
         <>
-            <div className="footer h-40 w-full bg-gray-50"></div>
+            <div className="footer w-full"></div>
             <style jsx>{`
                 .footer {
+                    height: ${footerHeight};
                     position: absolute;
                     bottom: 0;
                     left: 0;
-                    background-color: ${ColorMap.bgSub};
+                    background-color: ${ColorMap.bgMain};
                 }
             `}</style>
         </>

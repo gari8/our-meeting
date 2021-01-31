@@ -1,20 +1,18 @@
 export enum ColorMap {
-    textMain = "#67E2FC",
-    textSub = "#f7a400",
-    bgMain = "#000",
-    bgSub = "#817F82",
-    myWhite = "#FFFAFF"
+    title = "#16c79a",
+    textMain = "#09015f",
+    textAc = "#16c79a",
+    bgMain = "#11698e",
+    bgSub = "#19456b",
+    bgBase = "#f8f1f1",
 }
 
-export enum ColorMapNightly {
-    textMain = "#59F8E8",
-    textSub = "#f7a400",
-    bgMain = "#1a1b4b",
-    bgSub = "#898980",
-    myWhite = "#FFFAFF"
+export enum Texts {
+    title = "The minutes",
+    login = "Log in",
+    logout = "Log out"
 }
 
-export enum ColorMode {
-    defaultMode,
-    nightMode
+export enum Fonts {
+    title = '"MS Pゴシック", system-ui, sans-serif'
 }

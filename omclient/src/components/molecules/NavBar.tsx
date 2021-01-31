@@ -1,41 +1,50 @@
 import Nav from "../atoms/Nav";
-import {ColorMap} from "../../models/resource";
+import {ColorMap, Fonts, Texts} from "../../models/resource";
 import router from "next/router";
-import {useContext} from "react";
-import {AuthContext} from "../../lib/auth";
+import {firebase} from "../../lib/firebase";
 
 interface Props {
     signOut: () => void
     logIn: () => void
+    currentUser?: firebase.User
+    height: string
 }
 
-const NavBar = ({ signOut, logIn }: Props) => {
-    const { currentUser } = useContext(AuthContext);
-
+const NavBar = ({ signOut, logIn, currentUser, height }: Props) => {
     return (
         <>
-            <div className="navbar flex mx-auto px-10 rounded-full w-10/12 h-16 justify-between">
+            <div className="navbar flex px-10 w-full justify-between">
                 <Nav
-                    title="TOP"
-                    linkUrl="/"
-                    colorCode={ColorMap.textMain}
-                    url="/static/brst.svg"
-                    width={60}
-                    height={60}
+                    title={Texts.title}
+                    font={Fonts.title}
+                    height={height}
+                    linkUrl={currentUser ? "/dashboard" : "/"}
+                    colorCode={ColorMap.title}
                 />
-                <Nav
-                    title="NEXT"
-                    linkUrl="/NEXT"
-                    colorCode={ColorMap.textSub}
-                    url="/static/brstm.svg"
-                    width={60}
-                    height={60}
-                />
-                {currentUser ? <p onClick={() => signOut()}>signOut</p> : <p onClick={() => logIn()}>login</p>}
+                {
+                    currentUser
+                    ?
+                        <Nav
+                            title={Texts.logout}
+                            font={Fonts.title}
+                            height={height}
+                            handler={signOut}
+                            colorCode={ColorMap.textAc}
+                        />
+                    :
+                        <Nav
+                            title={Texts.login}
+                            font={Fonts.title}
+                            height={height}
+                            handler={logIn}
+                            colorCode={ColorMap.textAc}
+                        />
+                }
             </div>
             <style jsx>{`
                 .navbar {
-                    background-color: ${ColorMap.myWhite};
+                    height: ${height};
+                    background-color: ${ColorMap.bgMain};
                 }
             `}</style>
         </>
