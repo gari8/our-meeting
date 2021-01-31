@@ -29,7 +29,7 @@ const Home: FC = () =>  {
                         <img src="/static/brst.svg" />
                     </div>
                     <p className="description break-words text-white text-center text-md m-10 w-1/3 leading-relaxed">
-                        brain storming とは何か？<br/>　ブレインストーミングという言葉を周りで聞いたことはあるだろうか？
+                        brain storming とは何か<br/>　ブレインストーミングという言葉を周りで聞いたことはあるだろうか？
                         会議などで用いられる、相手の意見を尊重しながらどんどん意見を出し合う手法である。
                         しかし、この有効な手法もコロナ禍におけるビデオ会議で行ってしまうと意見が入り乱れて場が収まらなくなってしまう。
                         <br/>そのため、テキストベースでリアルタイムに話し合いができるツールとしてこのサービスを立ち上げてみた。
