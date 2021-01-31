@@ -19,7 +19,7 @@ const Home: FC = () =>  {
 
     useEffect(() => {
         currentUser ? router.push("/dashboard") : ""
-    }, [])
+    })
 
     return (
         <>
