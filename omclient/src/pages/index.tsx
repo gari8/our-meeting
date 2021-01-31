@@ -12,7 +12,7 @@ const Home: FC = () =>  {
     const { currentUser } = useContext(AuthContext);
     const handleSignIn = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithRedirect(provider)
+        firebase.auth().signInWithPopup(provider)
             .then(() => router.push("/dashboard"))
             .catch(err => console.error(err));
     }
