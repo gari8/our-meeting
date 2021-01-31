@@ -19,7 +19,7 @@ const Header: FC<Props> = ({ currentUser, headerHeight }) => {
     };
     const handleSignIn = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithRedirect(provider).then(r => console.log(r));
+        auth.signInWithPopup(provider).then(r => console.log(r));
     }
     return (
         <div className="flex justify-between">
