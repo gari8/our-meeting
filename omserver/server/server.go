@@ -10,24 +10,20 @@ import (
 	"net/http"
 	"omserver/graph"
 	"omserver/graph/generated"
-	"os"
 )
-
-const localWeb = "http://localhost:3000"
 
 func (g *graphQLServer)Serve() (chi.Router, error){
 	router := chi.NewRouter()
 
-	acceptWeb := os.Getenv("ACCEPT_BY_WEB")
-	if acceptWeb == "" {
-		acceptWeb = localWeb
+	acceptOrigins := []string{
+		"http://localhost:3000",
+		"https://www.the-minutes.org",
 	}
 
 	router.Use(cors.New(cors.Options{
-		AllowedOrigins:   []string{acceptWeb},
+		AllowedOrigins:   acceptOrigins,
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
-		AllowedHeaders:   []string{"*"},
 		Debug:            true,
 	}).Handler)
 
