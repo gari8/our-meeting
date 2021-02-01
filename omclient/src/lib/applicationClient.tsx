@@ -13,10 +13,7 @@ function createApolloClient() {
         ssrMode: typeof window === 'undefined',
         link: new HttpLink({
             uri: process.env.NEXT_PUBLIC_API_URL + '/query', // Server URL (must be absolute)
-            credentials: 'include', // Additional fetch() options like `credentials` or `headers`
-            fetchOptions: {
-                mode: 'no-cors',
-            },
+            credentials: 'no-cors', // Additional fetch() options like `credentials` or `headers`
         }),
         cache: new InMemoryCache({
             typePolicies: {
