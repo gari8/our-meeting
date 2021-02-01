@@ -24,7 +24,7 @@ func (g *graphQLServer)Serve() (chi.Router, error){
 		AllowedOrigins:   acceptOrigins,
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
-		Debug:            true,
+		Debug:            false,
 	}).Handler)
 
 	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: g.Resolver}))
