@@ -6,7 +6,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/go-chi/chi"
 	"github.com/gorilla/websocket"
-	"github.com/rs/cors"
 	"net/http"
 	"omserver/graph"
 	"omserver/graph/generated"
@@ -15,18 +14,18 @@ import (
 func (g *graphQLServer)Serve() (chi.Router, error){
 	router := chi.NewRouter()
 
-	acceptOrigins := []string{
-		"http://localhost:3000",
-		"https://www.the-minutes.org",
-	}
+	//acceptOrigins := []string{
+	//	"http://localhost:3000",
+	//	"https://www.the-minutes.org",
+	//}
 
-	router.Use(cors.New(cors.Options{
-		AllowedOrigins:   acceptOrigins,
-		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-		Debug:            false,
-	}).Handler)
+	//router.Use(cors.New(cors.Options{
+	//	AllowedOrigins:   acceptOrigins,
+	//	AllowCredentials: true,
+	//	AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"},
+	//	AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+	//	Debug:            false,
+	//}).Handler)
 
 	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: g.Resolver}))
 
