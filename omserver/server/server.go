@@ -23,7 +23,8 @@ func (g *graphQLServer)Serve() (chi.Router, error){
 	router.Use(cors.New(cors.Options{
 		AllowedOrigins:   acceptOrigins,
 		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		Debug:            false,
 	}).Handler)
 
