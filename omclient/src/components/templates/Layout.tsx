@@ -35,7 +35,7 @@ const Layout: FC<Props> = ({ children, withoutSideBar= false, currentUser }) => 
                     padding-bottom: ${footerHeight};
                 }
                 .field {
-                    height: calc(100vh - (${headerHeight} + ${footerHeight}));
+                    min-height: calc(100vh - (${headerHeight} + ${footerHeight}));
                 }
             `}</style>
         </>
