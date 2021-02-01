@@ -1,15 +1,16 @@
-import {AccordionItem, ColorMap} from "../../models/resource";
-import Link from "next/link";
-import {useState} from "react";
+import {ColorMap} from "../../models/resource";
+import React, {useState} from "react";
 
 interface Props {
     label: string
-    items?: AccordionItem[]
     open?: boolean
+    children?: React.ReactElement
 }
 
-const Accordion = ({ label, items, open = false }: Props) => {
+const Accordion = ({ label, open = false, children }: Props) => {
     const [isOpen, setStatus] = useState(open);
+    const additionalProps = {isOpen: isOpen}
+    const newChildren = React.cloneElement(children, additionalProps)
     return (
         <>
             <div className="a-box w-full">
@@ -23,9 +24,7 @@ const Accordion = ({ label, items, open = false }: Props) => {
                     <p className="label"> {label}</p>
                 </div>
                 <div className="a-lists">
-                    {items.map((item, i) => {
-                        return <p className={isOpen ?  "a-item" : "a-item-none" }><Link href={item.linkUrl}>{isOpen ? item.label : ""}</Link></p>
-                    })}
+                    { newChildren }
                 </div>
             </div>
             <style jsx>{`
@@ -35,26 +34,6 @@ const Accordion = ({ label, items, open = false }: Props) => {
                 }
                 .a-box:hover {
                     box-shadow: 0 0 5px ${ColorMap.bgMain};
-                }
-                .a-item {
-                    height: 60px;
-                    line-height: 60px;
-                    width: 100%;
-                    padding: 0 10px;
-                    border: solid 1px ${ColorMap.bgMain};
-                    border-bottom: none;
-                    transition: all .15s;
-                    over-flow: hidden;
-                }
-                .a-item:hover {
-                    text-decoration: underline;
-                    color: ${ColorMap.textAc};
-                }
-                .a-item-none {
-                    height: 0;
-                    line-height: 0;
-                    transition: all .15s;
-                    color: ${ColorMap.bgSub};
                 }
                 .label {
                     height: 60px;

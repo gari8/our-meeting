@@ -2,12 +2,12 @@ import Header from "../organisms/Header";
 import Footer from "../organisms/Footer";
 import SideBar from "../organisms/SideBar";
 import {ColorMap} from "../../models/resource";
-import {FC} from "react";
+import React, {FC} from "react";
 import {firebase} from "../../lib/firebase";
 
 
 interface Props {
-    children?: any
+    children?: React.ReactElement
     withoutSideBar?: boolean
     currentUser?: firebase.User
 }
