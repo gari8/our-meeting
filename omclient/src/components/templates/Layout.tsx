@@ -7,7 +7,7 @@ import {firebase} from "../../lib/firebase";
 
 
 interface Props {
-    children?: React.ReactElement
+    children?: any
     withoutSideBar?: boolean
     currentUser?: firebase.User
 }
